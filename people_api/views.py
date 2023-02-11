@@ -31,3 +31,14 @@ class persons(APIView):
     # Use serializer to format table data to JSON
     data = PeopleSerializer(persons, many=True).data
     return Response(data)
+
+    def post(self, request):
+    # Post Request
+    print(request.data)
+    # format data for postgres
+    persons = PeopleSerializer(data=request.data)
+    if persons.is_valid():
+      persons.save()
+      return Response(persons.data, status=status.HTTP_201_CREATED)
+    else: 
+      return Response(persons.errors, status=status.HTTP_400_BAD_REQUEST)
