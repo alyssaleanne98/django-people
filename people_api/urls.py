@@ -1,7 +1,7 @@
 from django.urls import path
-# from .views import People, PeopleDetail
+from .views import Person, PersonDetail
 
 urlpatterns = [
-    # path('', People.as_view(), name='people'),
-    # path('<int:pk>', PeopleDetail.as_view(), name='people_detail')
+    path('', Person.as_view(), name='person'),
+    path('<int:pk>', PersonDetail.as_view(), name='people_detail')
 ]

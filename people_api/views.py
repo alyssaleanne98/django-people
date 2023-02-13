@@ -1,14 +1,11 @@
-from django.shortcuts import render
-
-
 from rest_framework.views import APIView    # <- as super to your class
 from rest_framework.response import Response  # <- to send data to the frontend
 from rest_framework import status # <- to include status codes in your response
+from django.shortcuts import render 
 
-from .serializers import PeopleSerializer # <- to format data to and from the database, enforces schema
-
+from .serializer import PeopleSerializer # <- to format data to and from the database, enforces schema
 from .models import People
-
+from django.shortcuts import get_object_or_404
 
 # class (People)
 
@@ -21,24 +18,19 @@ from .models import People
 #  PUT     /people/:id - update
 #  DELETE  /people/:id - delete
 
-class persons(APIView):
 
-   def get(self, request):
+#Creat views here
+class Person(APIView): # person is the class name 
+
+  def get(self, request):
     # Index Request
     print(request)
-    # Get all books from the book table
-    persons = People.objects.all()
+   
+    person = People.objects.all()
     # Use serializer to format table data to JSON
-    data = PeopleSerializer(persons, many=True).data
+    data = PeopleSerializer(person, many=True).data
     return Response(data)
 
-    def post(self, request):
-    # Post Request
-    print(request.data)
-    # format data for postgres
-    persons = PeopleSerializer(data=request.data)
-    if persons.is_valid():
-      persons.save()
-      return Response(persons.data, status=status.HTTP_201_CREATED)
-    else: 
-      return Response(persons.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PersonDetail(APIView):
+    pass 
