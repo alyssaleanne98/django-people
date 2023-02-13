@@ -31,6 +31,18 @@ class Person(APIView): # person is the class name
     data = PeopleSerializer(person, many=True).data
     return Response(data)
 
+  def post (self, request):
+  #Post request
+    print(request.data)
+    #formt data for postgres
+    people = PeopleSerializer(data=request.data)
+    if people.is_valid():
+        people.save()
+        return Response(people.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(people.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class PersonDetail(APIView):
     pass 
